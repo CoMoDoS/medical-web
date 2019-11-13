@@ -28,32 +28,37 @@ class Login extends React.Component{
     };
 
     handleLogin = (username, password) => {
+        let bodyFormData = new FormData();
+        bodyFormData.set('email', username);
+        bodyFormData.set('password', password);
+        axios.defaults.withCredentials = true;
+        axios({
+            method: 'post',
+            url: 'http://localhost:8080/login',
+            data: bodyFormData,
+            headers: {'Content-Type': 'multipart/form-data'}
+        }).then((response) => {
 
-        // axios.defaults.withCredentials = true;
-        // axios({
-        //     method: 'post',
-        //     url: 'http://localhost/php/login.php',
-        //     data: {
-        //         username: username,
-        //         password: password
-        //     },
-        //
-        //     headers: {'Content-Type': 'application/json'}
-        // }).then((response) => {
-        //
-        //     console.log(response);
-        //     if (response.data[0].response === "OK" || response.data[0].response === "loggedin") {
-        //         this.props.history.push("/profile");
-        //         window.location.reload();
-        //     } else {
-        //         alert("Wrong credentials");
-        //     }
-        //
-        // });
-        cookies.set("username",username);
-        cookies.set("type", password);
-        this.props.history.push("/profile");
-        window.location.reload();
+            console.log(response);
+            debugger;
+            if(response.status === 200){
+                cookies.set("usernameID",response.data.id);
+                cookies.set("type", response.data.type);
+                this.props.history.push("/profile");
+                window.location.reload();
+            }
+            // if (response.data[0].response === "OK" || response.data[0].response === "loggedin") {
+            //     this.props.history.push("/profile");
+            //     window.location.reload();
+            // } else {
+            //     alert("Wrong credentials");
+            // }
+
+        });
+        // cookies.set("username",username);
+        // cookies.set("type", password);
+        // this.props.history.push("/profile");
+        // window.location.reload();
 
     };
 //"3o694cg639o4vrf0ra7esgh8uq"

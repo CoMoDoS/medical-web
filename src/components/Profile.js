@@ -15,11 +15,8 @@ class Profile extends React.Component{
         this.state = {
             id: "",
             email: "",
-            password:"",
             type:"",
-            name:"",
-            problem:"",
-            image:""
+            status:"",
         };
         this.componentDidMount = this.componentDidMount.bind(this);
 
@@ -27,23 +24,39 @@ class Profile extends React.Component{
 
 
     componentDidMount() {
-
-        let a = cookies.get("username");
+        debugger;
+        let a = cookies.get("usernameID");
 
         if(a!== undefined && a !== ""){
-            let type = cookies.get("type");
-            if(type!== undefined && type !== ""){
-                this.setState({
-                    type:type
-                })
-            }
-            this.setState({
-                name:a
-            })
+            axios.defaults.withCredentials = true;
+            axios.get('http://localhost:8080/user?id=' + a)
+                .then(res => {
+
+                    console.log(res);
+                    let aux = {
+                        id: res.data.id,
+                        email: res.data.email,
+                        type: res.data.type,
+                        status: res.data.status
+                    };
+                    this.setState(aux);
+                    // document.getElementById("id_email").value = this.state.email;
+                    // document.getElementById("id_name").value = this.state.type;
+                    // document.getElementById("id_password").value = this.state.status;
+                });
+            // let type = cookies.get("type");
+            // if(type!== undefined && type !== ""){
+            //     this.setState({
+            //         type:type
+            //     })
+            // }
+            // this.setState({
+            //     name:a
+            // })
         }
         else {
             this.props.history.push("/login");
-            window.location.reload();
+            // window.location.reload();
         }
 
 
@@ -113,9 +126,9 @@ class Profile extends React.Component{
     render() {
         return(
             <div className="container">
-                {this.state.type == "medic" ? <Medic/> : <div>Nu e medic</div>}
-                {this.state.type == "patient" ? <Patient/> : <div>Nu e patient</div>}
-                {this.state.type == "caregiver" ? <Caregiver/> : <div>Nu e caregiver</div>}
+                {this.state.type == "MEDIC" ? <Medic/> : <div>Nu e medic</div>}
+                {this.state.type == "PATIENT" ? <Patient/> : <div>Nu e patient</div>}
+                {this.state.type == "CAREGIVER" ? <Caregiver/> : <div>Nu e caregiver</div>}
 
 
                 {/*<div className="fb-profile">*/}
