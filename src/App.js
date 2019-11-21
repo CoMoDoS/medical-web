@@ -8,9 +8,6 @@ import Medic from "./components/Medic";
 
 function App() {
 
-
-
-
   return (
       <Router>
         <MyNavbar />

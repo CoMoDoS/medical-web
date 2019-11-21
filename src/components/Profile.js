@@ -126,9 +126,9 @@ class Profile extends React.Component{
     render() {
         return(
             <div className="container">
-                {this.state.type == "MEDIC" ? <Medic/> : <div>Nu e medic</div>}
-                {this.state.type == "PATIENT" ? <Patient/> : <div>Nu e patient</div>}
-                {this.state.type == "CAREGIVER" ? <Caregiver/> : <div>Nu e caregiver</div>}
+                {this.state.type == "MEDIC" ? <Medic {...this.props}/> : <div>Nu e medic</div>}
+                {this.state.type == "PATIENT" ? <Patient {...this.props}/> : <div>Nu e patient</div>}
+                {this.state.type == "CAREGIVER" ? <Caregiver {...this.props}/> : <div>Nu e caregiver</div>}
 
 
                 {/*<div className="fb-profile">*/}

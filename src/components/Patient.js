@@ -27,18 +27,24 @@ class Patient extends React.Component{
 
     componentDidMount() {
 
-        let a = cookies.get("username");
+        let a = cookies.get("usernameID");
         debugger;
         if(a!== undefined && a !== ""){
-            let type = cookies.get("type");
-            if(type!== undefined && type !== ""){
-                this.setState({
-                    type:type
-                })
-            }
-            this.setState({
-                name:a
-            })
+            axios.defaults.withCredentials = true;
+            axios.get('http://localhost:8080/user/patient?id=' + a)
+                .then(res => {
+
+                    console.log(res);
+                    let aux = {
+                        id: res.data.id,
+                        email: res.data.email,
+                        type: res.data.type
+                    };
+                    this.setState(aux);
+                    // document.getElementById("id_email").value = this.state.email;
+                    // document.getElementById("id_name").value = this.state.type;
+                    // document.getElementById("id_password").value = this.state.status;
+                });
         }
         else {
             this.props.history.push("/login");
