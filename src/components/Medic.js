@@ -1,4 +1,3 @@
-
 import React from 'react'
 import ReactTable from "react-table";
 import "react-table/react-table.css";
@@ -8,6 +7,8 @@ import axios from 'axios'
 // import UnitEdit from "./UnitEdit";
 // import MedicEdit from "./MedicEdit";
 import Cookies from 'universal-cookie';
+import Popup from "reactjs-popup";
+import PatientEdit from "./PatientEdit";
 const cookies = new Cookies();
 
 
@@ -16,38 +17,98 @@ class Medic extends React.Component{
     constructor() {
         super();
         this.state = {
-            doctors: [],
-            users:[],
-            units:[],
+            patients: [],
+            caregivers:[],
+            medications:[],
             comments:[]
         };
     }
 
     componentDidMount() {
-        // var a = cookies.get("user_id");
+        // var a = cookies.get("usernameID");
         // if ( a != null) {
         //
         //
-        //     // axios.defaults.withCredentials = true;
-        //     // axios.get('http://localhost:3002/doctors' )
-        //     //     .then(res => {
-        //     //         this.setState({doctors:res.data});
-        //     //     });
-        //     // axios.get('http://localhost:3002/customUsers' )
-        //     //     .then(res => {
-        //     //         this.setState({users:res.data});
-        //     //     });
-        //     // axios.get('http://localhost:3002/medical_units' )
-        //     //     .then(res => {
-        //     //         this.setState({units:res.data});
-        //     //     });
-        //     // axios.get('http://localhost:3002/customComments' )
-        //     //     .then(res => {
-        //     //         this.setState({comments:res.data});
-        //     //     });
+        //     axios.defaults.withCredentials = true;
+        //     axios.get('http://localhost:3002/doctors' )
+        //         .then(res => {
+        //             this.setState({doctors:res.data});
+        //         });
+        //     axios.get('http://localhost:3002/customUsers' )
+        //         .then(res => {
+        //             this.setState({users:res.data});
+        //         });
+        //     axios.get('http://localhost:3002/medical_units' )
+        //         .then(res => {
+        //             this.setState({units:res.data});
+        //         });
+        //     axios.get('http://localhost:3002/customComments' )
+        //         .then(res => {
+        //             this.setState({comments:res.data});
+        //         });
         // } else {
         //     this.props.history.push("/adminlogin");
         // }
+        var a = cookies.get("usernameID");
+        if( a !== null ){
+            let patients = [
+                {
+                    "Profile":"Doctor1",
+                    "name":"name1",
+                    "year":"2019"
+                },
+                {
+                    "Profile":"Doctor1",
+                    "name":"name1",
+                    "year":"2019"
+                },
+                {
+                    "Profile":"Doctor1",
+                    "name":"name1",
+                    "year":"2019"
+                }
+            ];
+            let caregivers = [
+                {
+                    "Profile":"Doctor1",
+                    "name":"name1",
+                    "speciality":"2019"
+                },
+                {
+                    "Profile":"Doctor1",
+                    "name":"name1",
+                    "speciality":"2019"
+                },
+                {
+                    "Profile":"Doctor1",
+                    "name":"name1",
+                    "speciality":"2019"
+                }
+            ];
+            let medications = [
+                {
+                    "email":"ema1",
+                    "problem":"problem1",
+                    "admin":"admin1"
+                },
+                {
+                    "email":"ema2",
+                    "problem":"problem2",
+                    "admin":"admin2"
+                },
+                {
+                    "email":"ema3",
+                    "problem":"problem3",
+                    "admin":"admin3"
+                }
+            ];
+            this.setState({
+                patients:patients,
+                caregivers:caregivers,
+                medications:medications
+            })
+        }
+
     }
     handleClick(data){
         console.log(data)
@@ -138,35 +199,31 @@ class Medic extends React.Component{
                     {/*>*/}
                     {/*<MedicEdit id={-1}/>*/}
                     {/*</Popup>*/}
+                    <Popup
+                        trigger={<button className="button"> Create </button>}
+                        position="left top"
+                        closeOnDocumentClick
+                        contentStyle={{ width:420 }}
+                    >
+                        <PatientEdit id={-1}/>
+                    </Popup>
                     <ReactTable
                         // data={this.state.doctors}
-                        data={[
-                            {
-                                "Profile":"Doctor1",
-                                "name":"name1",
-                                "year":"2019"
-                            },
-                            {
-                                "Profile":"Doctor1",
-                                "name":"name1",
-                                "year":"2019"
-                            },
-                            {
-                                "Profile":"Doctor1",
-                                "name":"name1",
-                                "year":"2019"
-                            }
-                        ]}
+                        data={this.state.patients}
                         columns={[
                             {
                                 Header: "Patients",
                                 columns: [
+                                    // {
+                                    //     Header: "Profile",
+                                    //     Cell: (row) => {
+                                    //         return <div><img height={50} src={row.original.image} alt="profile"/></div>
+                                    //     },
+                                    //     id: "Profile"
+                                    // },
                                     {
                                         Header: "Profile",
-                                        Cell: (row) => {
-                                            return <div><img height={50} src={row.original.image} alt="profile"/></div>
-                                        },
-                                        id: "status"
+                                        accessor: "Profile"
                                     },
                                     {
                                         Header: "Name",
@@ -176,10 +233,10 @@ class Medic extends React.Component{
                                         Header: "Year",
                                         accessor: "year"
                                     },
-                                    {
-                                        Header: "Speciality",
-                                        accessor: "speciality"
-                                    },
+                                    // {
+                                    //     Header: "Speciality",
+                                    //     accessor: "speciality"
+                                    // },
                                     // {
                                     //     Header: "Rating",
                                     //     Cell: (row) => {
@@ -197,17 +254,17 @@ class Medic extends React.Component{
                                         Cell:(row) => {return <button onClick={() => {this.deleteDoctor(row.original)}}>Delete</button>}
                                     },
 
-                                    // {
-                                    //     Header:"",
-                                    //     Cell:(row) => {return <Popup
-                                    //         trigger={<button className="button"> Edit </button>}
-                                    //         position="left top"
-                                    //         closeOnDocumentClick
-                                    //         contentStyle={{ width:420 }}
-                                    //     ><MedicEdit id={row.original.id}/>
-                                    //     </Popup>
-                                    //     }
-                                    // }
+                                    {
+                                        Header:"",
+                                        Cell:(row) => {return <Popup
+                                            trigger={<button className="button"> Edit </button>}
+                                            position="left top"
+                                            closeOnDocumentClick
+                                            contentStyle={{ width:420 }}
+                                        ><PatientEdit id={row.original.id}/>
+                                        </Popup>
+                                        }
+                                    }
 
                                 ]
                             }
@@ -234,33 +291,21 @@ class Medic extends React.Component{
                     {/*</Popup>*/}
                     <ReactTable
                         // data={this.state.units}
-                        data={[
-                            {
-                                "Profile":"Doctor1",
-                                "name":"name1",
-                                "speciality":"2019"
-                            },
-                            {
-                                "Profile":"Doctor1",
-                                "name":"name1",
-                                "speciality":"2019"
-                            },
-                            {
-                                "Profile":"Doctor1",
-                                "name":"name1",
-                                "speciality":"2019"
-                            }
-                        ]}
+                        data={this.state.caregivers}
                         columns={[
                             {
                                 Header: "Caregivers",
                                 columns: [
+                                    // {
+                                    //     Header: "Profile",
+                                    //     Cell: (row) => {
+                                    //         return <div><img height={50} src={row.original.image} alt="profile"/></div>
+                                    //     },
+                                    //     id: "Profile"
+                                    // },
                                     {
                                         Header: "Profile",
-                                        Cell: (row) => {
-                                            return <div><img height={50} src={row.original.image} alt="profile"/></div>
-                                        },
-                                        id: "status"
+                                        accessor: "Profile"
                                     },
                                     {
                                         Header: "Name",
@@ -274,17 +319,17 @@ class Medic extends React.Component{
                                         Header:"",
                                         Cell:(row) => {return <button onClick={() => {this.deleteUnits(row.original)}}>Delete</button>}
                                     },
-                                    // {
-                                    //     Header:"",
-                                    //     Cell:(row) => {return <Popup
-                                    //         trigger={<button className="button"> Edit </button>}
-                                    //         position="left top"
-                                    //         closeOnDocumentClick
-                                    //         contentStyle={{ width:420 }}
-                                    //     ><UnitEdit id={row.original.id}/>
-                                    //     </Popup>
-                                    //     }
-                                    // }
+                                    {
+                                        Header:"",
+                                        Cell:(row) => {return <Popup
+                                            trigger={<button className="button"> Edit </button>}
+                                            position="left top"
+                                            closeOnDocumentClick
+                                            contentStyle={{ width:420 }}
+                                        ><PatientEdit id={row.original.id}/>
+                                        </Popup>
+                                        }
+                                    }
 
                                 ]
                             }
@@ -304,23 +349,7 @@ class Medic extends React.Component{
 
                     <ReactTable
                         // data={this.state.users}
-                        data={[
-                            {
-                                "email":"ema1",
-                                "problem":"problem1",
-                                "admin":"admin1"
-                            },
-                            {
-                                "email":"ema2",
-                                "problem":"problem2",
-                                "admin":"admin2"
-                            },
-                            {
-                                "email":"ema3",
-                                "problem":"problem3",
-                                "admin":"admin3"
-                            }
-                        ]}
+                        data={this.state.medications}
                         columns={[
                             {
                                 Header: "Medications",
@@ -356,6 +385,17 @@ class Medic extends React.Component{
                                     {
                                         Header:"",
                                         Cell:(row) => {return <button onClick={() => {this.deleteUser(row.original)}}>Delete</button>}
+                                    },
+                                    {
+                                        Header:"",
+                                        Cell:(row) => {return <Popup
+                                            trigger={<button className="button"> Edit </button>}
+                                            position="left top"
+                                            closeOnDocumentClick
+                                            contentStyle={{ width:420 }}
+                                        ><PatientEdit id={row.original.id}/>
+                                        </Popup>
+                                        }
                                     }
 
                                 ]

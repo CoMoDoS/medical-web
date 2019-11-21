@@ -14,11 +14,18 @@ class Patient extends React.Component{
         this.state = {
             id: "",
             email: "",
-            password:"",
+            status:"",
             type:"",
             name:"",
-            problem:"",
-            image:""
+            bdate:"",
+            gender:"",
+            address:"",
+            medicalRecord:"",
+            user_id:"",
+            caregiver_id:"",
+            medicationPlan : []
+
+
         };
         this.componentDidMount = this.componentDidMount.bind(this);
 
@@ -28,53 +35,67 @@ class Patient extends React.Component{
     componentDidMount() {
 
         let a = cookies.get("usernameID");
-        debugger;
-        if(a!== undefined && a !== ""){
-            axios.defaults.withCredentials = true;
-            axios.get('http://localhost:8080/user/patient?id=' + a)
-                .then(res => {
 
-                    console.log(res);
-                    let aux = {
-                        id: res.data.id,
-                        email: res.data.email,
-                        type: res.data.type
-                    };
-                    this.setState(aux);
-                    // document.getElementById("id_email").value = this.state.email;
-                    // document.getElementById("id_name").value = this.state.type;
-                    // document.getElementById("id_password").value = this.state.status;
-                });
-        }
-        else {
-            this.props.history.push("/login");
-            window.location.reload();
-        }
-
-
-        // if ( a != null) {
+        // if(a!== undefined && a !== ""){
         //     axios.defaults.withCredentials = true;
-        //     axios.get('http://localhost/php/getUserById.php')
+        //     axios.get('http://localhost:8080/user/patient?id=' + a)
         //         .then(res => {
         //
         //             console.log(res);
-        //             var aux = {
-        //                 id: res.data[0].id,
-        //                 email: res.data[0].email,
-        //                 password: res.data[0].password,
-        //                 type: res.data[0].type,
-        //                 name: res.data[0].name,
-        //                 problem: res.data[0].problem,
-        //                 image: res.data[0].image
+        //             let aux = {
+        //                 id: res.data.id,
+        //                 email: res.data.email,
+        //                 type: res.data.type
         //             };
         //             this.setState(aux);
-        //             document.getElementById("id_email").value = this.state.email;
-        //             document.getElementById("id_name").value = this.state.name;
-        //             document.getElementById("id_password").value = this.state.password;
+        //             // document.getElementById("id_email").value = this.state.email;
+        //             // document.getElementById("id_name").value = this.state.type;
+        //             // document.getElementById("id_password").value = this.state.status;
         //         });
-        // } else {
-        //     this.props.history.push("/login");
+
+        //          axios.defaults.withCredentials = true;
+        //      axios.get('http://localhost:8080/medicationPlan/getByPatient?id=' + a)
+        //         .then(res => {
+        //
+        //             console.log(res);
+        //             let aux = {
+        //                 medicationPlan:res.data
+        //             };
+        //             this.setState(aux);
+        //         });
         // }
+        // else {
+        //     this.props.history.push("/login");
+        //     window.location.reload();
+        // }
+
+
+        if(a!== undefined && a !== "") {
+            let aux ={
+                id: "1",
+                email: "email",
+                status:"statuuus",
+                type:"",
+                name:"numeeeelelee",
+                bdate:"",
+                gender:"",
+                address:"",
+                medicalRecord:"",
+                user_id:"",
+                caregiver_id:""
+            };
+            this.setState(aux);
+            document.getElementById("id_name").value = this.state.name;
+            document.getElementById("id_email").value = this.state.email;
+            document.getElementById("id_status").value = this.state.status;
+
+
+
+        } else {
+            this.props.history.push("/login");
+            // window.location.reload();
+        }
+
     }
 
     handleSubmit = () => {
@@ -119,63 +140,36 @@ class Patient extends React.Component{
         return(
             <div className="container">
 
-                <div className="fb-profile">
-                    <img align="left" className="fb-image-lg" src="/images/banner-bg.jpg"
-                         alt="Profile example"/>
-                    <img align="left" className="fb-image-profile thumbnail"
-                         src={this.state.image} alt="Profile example" style={{height: '140px', width: '170px', borderRadius: '46px'}}/>
-                    <div className="fb-profile-text">
-                        <h1>{this.state.name}</h1>
+                {/*<div className="fb-profile">*/}
+                {/*<img align="left" className="fb-image-lg" src="/images/banner-bg.jpg"*/}
+                {/*alt="Profile example"/>*/}
+                {/*<img align="left" className="fb-image-profile thumbnail"*/}
+                {/*src={this.state.image} alt="Profile example" style={{height: '140px', width: '170px', borderRadius: '46px'}}/>*/}
+                {/*<div className="fb-profile-text">*/}
+                {/*<h1>{this.state.name}</h1>*/}
 
-                    </div>
-                </div>
+                {/*</div>*/}
+                {/*</div>*/}
                 <Form id="form_id" action="http://localhost/php/updateUser.php" method="POST">
                     <FormGroup row>
                         <Label for="exampleName" sm={2}>Name</Label>
                         <Col sm={10}>
-                            <Input type="text" name="email" id="id_name" placeholder="with a placeholder" />
+                            <Input type="text" name="email" id="id_name" placeholder="with a placeholder"  value={this.state.name}/>
                         </Col>
                     </FormGroup>
                     <FormGroup row>
                         <Label for="exampleEmail" sm={2}>Email</Label>
                         <Col sm={10}>
-                            <Input type="text" name="email" id="id_email" placeholder="with a placeholder"/>
+                            <Input type="text" name="email" id="id_email" placeholder="with a placeholder"  value={this.state.email}/>
                         </Col>
                     </FormGroup>
                     <FormGroup row>
-                        <Label for="examplePassword" sm={2}>Password</Label>
+                        <Label for="exampleStatus" sm={2}>Password</Label>
                         <Col sm={10}>
-                            <Input type="password" name="password" id="id_password" placeholder="password placeholder" />
-                        </Col>
-                    </FormGroup>
-                    <FormGroup row>
-                        <Label for="exampleSelect" sm={2}>Problem</Label>
-                        <Col sm={10}>
-                            <Input type="select" name="select" id="id_problem" >
-                                <option>{this.state.problem}</option>
-                                <option>Inima</option>
-                                <option>Maini</option>
-                                <option>Stomac</option>
-                                <option>Picioare</option>
-                            </Input>
+                            <Input type="text" name="status" id="id_status" placeholder="password placeholder" value={this.state.status}/>
                         </Col>
                     </FormGroup>
 
-                    <FormGroup row>
-                        <Label for="exampleFile" sm={2}>Image</Label>
-                        <Col sm={10}>
-                            <Input type="file" name="image" id="id_image" />
-                            <FormText color="muted">
-                                Chose an image.
-                            </FormText>
-                        </Col>
-                    </FormGroup>
-
-                    <FormGroup check row>
-                        <Col sm={{ size: 10, offset: 2 }}>
-                            <Button onClick={() => this.handleSubmit()}>Submit</Button>
-                        </Col>
-                    </FormGroup>
                 </Form>
 
                 <div style={{margin:'50px auto', maxWidth:1000, textAlign:'center'}}>
@@ -184,19 +178,19 @@ class Patient extends React.Component{
                         // data={this.state.users}
                         data={[
                             {
-                                "email":"ema1",
-                                "problem":"problem1",
-                                "admin":"admin1"
+                                "intakeInterval":"ema1",
+                                "period":"problem1",
+                                "status":"admin1"
                             },
                             {
-                                "email":"ema2",
-                                "problem":"problem2",
-                                "admin":"admin2"
+                                "intakeInterval":"ema1",
+                                "period":"problem1",
+                                "status":"admin1"
                             },
                             {
-                                "email":"ema3",
-                                "problem":"problem3",
-                                "admin":"admin3"
+                                "intakeInterval":"ema1",
+                                "period":"problem1",
+                                "status":"admin1"
                             }
                         ]}
                         columns={[
@@ -212,8 +206,8 @@ class Patient extends React.Component{
                                     //
                                     // },
                                     {
-                                        Header: "Emai",
-                                        accessor: "email"
+                                        Header: "intakeInterval",
+                                        accessor: "intakeInterval"
                                     },
                                     // {
                                     //     Header: "Name",
@@ -222,14 +216,14 @@ class Patient extends React.Component{
                                     //
                                     // },
                                     {
-                                        Header: "Problem",
-                                        accessor: "problem"
+                                        Header: "period",
+                                        accessor: "period"
 
 
                                     },
                                     {
-                                        Header: "Admin",
-                                        accessor: "admin"
+                                        Header: "status",
+                                        accessor: "status"
                                     },
                                     {
                                         Header:"",
