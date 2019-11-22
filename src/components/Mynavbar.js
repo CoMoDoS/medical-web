@@ -1,6 +1,8 @@
 
 import React from 'react';
 import {Link} from 'react-router-dom'
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 // import '../css/navbar.css'
 
 
@@ -19,10 +21,9 @@ class MyNavbar extends React.Component {
         })
     };
     getName = () => {
-        let cookieName = document.cookie.split(';').filter( (i) => i.trim().startsWith('name='));
+        let cookieName = cookies.get("type");
         if ( cookieName.length !== 0 ){
-            let cookieValue = cookieName[0].split('=')[1];
-            return cookieValue;
+            return cookieName;
         } else {
             return ''
         }
@@ -47,7 +48,7 @@ class MyNavbar extends React.Component {
                         {/*<Link onClick={() => {this.getActive("rapoarte")}}  to={'/Medical/rapoarte'}  className="nav-link"> Rapoarte </Link><span className="sr-only">(current)</span>*/}
                         {/*</li>*/}
                     </ul>
-                    <div id="loginName">{this.state.name !== '' ? 'Bun venit ' + this.state.name : "" }</div>
+                    <div id="loginName">{this.state.name !== '' ?  this.state.name : "" }</div>
                 </div>
             </nav>
         )

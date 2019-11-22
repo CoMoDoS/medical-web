@@ -2,7 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import {Button, Col, Form, FormGroup, FormText, Input, Label} from "reactstrap";
 
-class PatientEdit extends React.Component{
+class CaregiverEdit extends React.Component{
     constructor(props){
         super(props);
         this.state = {
@@ -15,15 +15,12 @@ class PatientEdit extends React.Component{
             bdate:"",
             gender:"",
             address:"",
-            medicalRecord:"",
-            user_id:"",
-            caregiver_id:""
-
+            user_id:""
         };
     }
     componentDidMount() {
         if ( this.props.id > 0) {
-            axios.get('http://localhost:8080/user/patient?id=' + this.props.id)
+            axios.get('http://localhost:8080/user/caregiver?id=' + this.props.id)
                 .then(res => {
                     let patient = res.data;
                     let aux ={
@@ -36,9 +33,7 @@ class PatientEdit extends React.Component{
                         bdate:patient.birthdate,
                         gender:patient.gender,
                         address:patient.address,
-                        medicalRecord:patient.medicalRecord,
-                        user_id:patient.user_id,
-                        caregiver_id:patient.caregiver_id
+                        user_id:patient.user_id
                     };
                     this.setState(aux);
                 });
@@ -56,15 +51,13 @@ class PatientEdit extends React.Component{
             birthdate : document.getElementById("id_bdate").value,
             gender : document.getElementById("id_gender").value,
             address : document.getElementById("id_address").value,
-            medicalRecord : document.getElementById("id_medicalRecord").value,
             user_id : document.getElementById("id_userid").value,
-            caregiver_id : document.getElementById("id_caregiverid").value,
             password :  document.getElementById("id_password").value
         };
         // axios.defaults.withCredentials = true;
         axios({
             method: 'put',
-            url: 'http://localhost:8080/user/patient?id=' + this.props.id,
+            url: 'http://localhost:8080/user/caregiver?id=' + this.props.id,
             data: data,
 
         })
@@ -91,15 +84,13 @@ class PatientEdit extends React.Component{
             birthdate : document.getElementById("id_bdate").value,
             gender : document.getElementById("id_gender").value,
             address : document.getElementById("id_address").value,
-            medicalRecord : document.getElementById("id_medicalRecord").value,
             user_id : document.getElementById("id_userid").value,
-            caregiver_id : document.getElementById("id_caregiverid").value,
             password :  document.getElementById("id_password").value
         };
         // axios.defaults.withCredentials = true;
         axios({
             method: 'post',
-            url: 'http://localhost:8080/user/patient',
+            url: 'http://localhost:8080/user/caregiver',
             data: data,
 
         })
@@ -171,23 +162,12 @@ class PatientEdit extends React.Component{
                     </Col>
                 </FormGroup>
                 <FormGroup row>
-                    <Label for="exampleStatus" sm={2}>Medical Record</Label>
-                    <Col sm={10}>
-                        <Input type="text" name="status" id="id_medicalRecord" placeholder="password placeholder" defaultValue={this.state.medicalRecord}/>
-                    </Col>
-                </FormGroup>
-                <FormGroup row>
                     <Label for="exampleStatus" sm={2}>User id</Label>
                     <Col sm={10}>
                         <Input type="text" name="status" id="id_userid" placeholder="password placeholder" defaultValue={this.state.user_id}/>
                     </Col>
                 </FormGroup>
-                <FormGroup row>
-                    <Label for="exampleStatus" sm={2}>Caregiver id</Label>
-                    <Col sm={10}>
-                        <Input type="text" name="status" id="id_caregiverid" placeholder="password placeholder" defaultValue={this.state.caregiver_id}/>
-                    </Col>
-                </FormGroup>
+
                 {this.props.id > 0 ? <FormGroup check row>
                         <Col sm={{ size: 10, offset: 2 }}>
                             <Button onClick={() => this.handleSubmit()}>Submit</Button>
@@ -203,4 +183,4 @@ class PatientEdit extends React.Component{
         )
     }
 }
-export default PatientEdit;
+export default CaregiverEdit;

@@ -39,12 +39,11 @@ class Login extends React.Component{
         }).then((response) => {
 
             console.log(response);
-            debugger;
             if(response.status === 200){
                 cookies.set("usernameID",response.data.id);
                 cookies.set("type", response.data.type);
                 this.props.history.push("/");
-                window.location.reload();
+                // window.location.reload();
             }
         });
 /*
@@ -52,10 +51,10 @@ class Login extends React.Component{
         cookies.set("type", password);
         this.props.history.push("/");*/
 
-        cookies.set("username",username);
-        cookies.set("type", password);
-        this.props.history.push("/profile");
-        window.location.reload();
+        // cookies.set("username",username);
+        // cookies.set("type", password);
+        // this.props.history.push("/profile");
+        // window.location.reload();
 
     };
     render(){

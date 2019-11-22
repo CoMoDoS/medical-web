@@ -23,56 +23,25 @@ class Profile extends React.Component{
 
 
     componentDidMount() {
-
         let a = cookies.get("usernameID");
-
-        // if(a!== undefined && a !== ""){
-        //     axios.defaults.withCredentials = true;
-        //     axios.get('http://localhost:8080/user?id=' + a)
-        //         .then(res => {
-        //
-        //             console.log(res);
-        //             let aux = {
-        //                 id: res.data.id,
-        //                 email: res.data.email,
-        //                 type: res.data.type,
-        //                 status: res.data.status
-        //             };
-        //             this.setState(aux);
-        //             // document.getElementById("id_email").value = this.state.email;
-        //             // document.getElementById("id_name").value = this.state.type;
-        //             // document.getElementById("id_password").value = this.state.status;
-        //         });
-        //     //
-        //     // if(type!== undefined && type !== ""){
-        //     //     this.setState({
-        //     //         type:type
-        //     //     })
-        //     // }
-        //     // this.setState({
-        //     //     name:a
-        //     // })
-        // }
-        // else {
-        //     this.props.history.push("/login");
-        //     // window.location.reload();
-        // }
-
-        if(a!== undefined && a !== "") {
-            let type = cookies.get("type");
-            let aux = {
-                id: a,
-                email: "email",
-                type: type,
-                status: "status"
-            };
-            this.setState(aux);
-
-        }else {
+        if(a!== undefined && a !== ""){
+            axios.defaults.withCredentials = true;
+            axios.get('http://localhost:8080/user?id=' + a)
+                .then(res => {
+                    console.log(res);
+                    let aux = {
+                        id: res.data.id,
+                        email: res.data.email,
+                        type: res.data.type,
+                        status: res.data.status
+                    };
+                    this.setState(aux);
+                });
+        }
+        else {
             this.props.history.push("/login");
             // window.location.reload();
         }
-
     }
 
     render() {

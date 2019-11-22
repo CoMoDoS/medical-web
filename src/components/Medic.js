@@ -9,6 +9,9 @@ import axios from 'axios'
 import Cookies from 'universal-cookie';
 import Popup from "reactjs-popup";
 import PatientEdit from "./PatientEdit";
+import CaregiverEdit from "./CaregiverEdit";
+import MedicationEdit from "./MedicationEdit";
+import PatientMedication from "./PatientMedication";
 const cookies = new Cookies();
 
 
@@ -25,133 +28,65 @@ class Medic extends React.Component{
     }
 
     componentDidMount() {
-        // var a = cookies.get("usernameID");
-        // if ( a != null) {
-        //
-        //
-        //     axios.defaults.withCredentials = true;
-        //     axios.get('http://localhost:3002/doctors' )
-        //         .then(res => {
-        //             this.setState({doctors:res.data});
-        //         });
-        //     axios.get('http://localhost:3002/customUsers' )
-        //         .then(res => {
-        //             this.setState({users:res.data});
-        //         });
-        //     axios.get('http://localhost:3002/medical_units' )
-        //         .then(res => {
-        //             this.setState({units:res.data});
-        //         });
-        //     axios.get('http://localhost:3002/customComments' )
-        //         .then(res => {
-        //             this.setState({comments:res.data});
-        //         });
-        // } else {
-        //     this.props.history.push("/adminlogin");
-        // }
         var a = cookies.get("usernameID");
-        if( a !== null ){
-            let patients = [
-                {
-                    "Profile":"Doctor1",
-                    "name":"name1",
-                    "year":"2019"
-                },
-                {
-                    "Profile":"Doctor1",
-                    "name":"name1",
-                    "year":"2019"
-                },
-                {
-                    "Profile":"Doctor1",
-                    "name":"name1",
-                    "year":"2019"
-                }
-            ];
-            let caregivers = [
-                {
-                    "Profile":"Doctor1",
-                    "name":"name1",
-                    "speciality":"2019"
-                },
-                {
-                    "Profile":"Doctor1",
-                    "name":"name1",
-                    "speciality":"2019"
-                },
-                {
-                    "Profile":"Doctor1",
-                    "name":"name1",
-                    "speciality":"2019"
-                }
-            ];
-            let medications = [
-                {
-                    "email":"ema1",
-                    "problem":"problem1",
-                    "admin":"admin1"
-                },
-                {
-                    "email":"ema2",
-                    "problem":"problem2",
-                    "admin":"admin2"
-                },
-                {
-                    "email":"ema3",
-                    "problem":"problem3",
-                    "admin":"admin3"
-                }
-            ];
-            this.setState({
-                patients:patients,
-                caregivers:caregivers,
-                medications:medications
-            })
+        if ( a != null) {
+            axios.defaults.withCredentials = true;
+            axios.get('http://localhost:8080/user/caregiver/all' )
+                .then(res => {
+                    this.setState({caregivers:res.data});
+                });
+            axios.get('http://localhost:8080/user/patient/all' )
+                .then(res => {
+                    this.setState({patients:res.data});
+                });
+            axios.get('http://localhost:8080/medication/all' )
+                .then(res => {
+                    this.setState({medications:res.data});
+                });
+            // axios.get('http://localhost:3002/customComments' )
+            //     .then(res => {
+            //         this.setState({comments:res.data});
+            //     });
+        } else {
+            this.props.history.push("/");
         }
-
     }
     handleClick(data){
         console.log(data)
     }
-    deleteUnits(data){
-        console.log(data)
-        // axios({
-        //     method: 'delete',
-        //     url: 'http://localhost:3002/medical_units/'+data.id,
-        //     headers: { 'Content-Type': 'application/json' }
-        // }).then((response) => {
-        //
-        //     console.log(response);
-        //     window.location.reload();
-        //
-        // });
+    deleteCaregiver(data){
+        console.log(data);
+        axios({
+            method: 'delete',
+            url: 'http://localhost:8080/user/caregiver?id='+data.id,
+            headers: { 'Content-Type': 'application/json' }
+        }).then((response) => {
+            console.log(response);
+            window.location.reload();
+        });
     }
 
-    deleteUser(data){
+    deleteMedication(data){
         console.log(data)
-        // axios({
-        //     method: 'delete',
-        //     url: 'http://localhost:3002/users/'+data.id,
-        //     headers: { 'Content-Type': 'application/json' }
-        // }).then((response) => {
-        //
-        //     console.log(response);
-        //     window.location.reload();
-        //
-        // });
+        axios({
+            method: 'delete',
+            url: 'http://localhost:8080/medication?id='+data.id,
+            headers: { 'Content-Type': 'application/json' }
+        }).then((response) => {
+            console.log(response);
+            window.location.reload();
+        });
     }
-    deleteDoctor(data){
+    deletePatient(data){
         console.log(data)
-        // axios({
-        //     method: 'delete',
-        //     url: 'http://localhost:3002/doctors/'+data.id,
-        //     headers: { 'Content-Type': 'application/json' }
-        // }).then((response) => {
-        //
-        //     console.log(response);
-        //     window.location.reload();
-        //
-        // });
+        axios({
+            method: 'delete',
+            url: 'http://localhost:8080/user/patient?id='+data.id,
+            headers: { 'Content-Type': 'application/json' }
+        }).then((response) => {
+            console.log(response);
+            window.location.reload();
+        });
     }
 
     deleteComment(data){
@@ -191,14 +126,6 @@ class Medic extends React.Component{
         return(
             <div>
                 <div style={{margin:'50px auto', maxWidth:1000, textAlign:'center'}}>
-                    {/*<Popup*/}
-                    {/*trigger={<button className="button"> Create </button>}*/}
-                    {/*position="left top"*/}
-                    {/*closeOnDocumentClick*/}
-                    {/*contentStyle={{ width:420 }}*/}
-                    {/*>*/}
-                    {/*<MedicEdit id={-1}/>*/}
-                    {/*</Popup>*/}
                     <Popup
                         trigger={<button className="button"> Create </button>}
                         position="left top"
@@ -214,44 +141,54 @@ class Medic extends React.Component{
                             {
                                 Header: "Patients",
                                 columns: [
-                                    // {
-                                    //     Header: "Profile",
-                                    //     Cell: (row) => {
-                                    //         return <div><img height={50} src={row.original.image} alt="profile"/></div>
-                                    //     },
-                                    //     id: "Profile"
-                                    // },
                                     {
-                                        Header: "Profile",
-                                        accessor: "Profile"
+                                        Header: "Id",
+                                        accessor: "id"
                                     },
                                     {
                                         Header: "Name",
                                         accessor: "name"
                                     },
                                     {
-                                        Header: "Year",
-                                        accessor: "year"
+                                        Header: "Email",
+                                        accessor: "email"
                                     },
-                                    // {
-                                    //     Header: "Speciality",
-                                    //     accessor: "speciality"
-                                    // },
-                                    // {
-                                    //     Header: "Rating",
-                                    //     Cell: (row) => {
-                                    //         return <div>
-                                    //             <StarRatingComponent
-                                    //                 name="rate1"
-                                    //                 starCount={5}
-                                    //                 value={row.original.rating / row.original.nr_comms >= 0 ? parseInt(row.original.rating / row.original.nr_comms) : 0} />
-                                    //         </div>
-                                    //     },
-                                    //     id: "rating"
-                                    // },
+                                    {
+                                        Header: "Status",
+                                        accessor: "status"
+                                    },
+                                    {
+                                        Header: "Type",
+                                        accessor: "type"
+                                    },
+                                    {
+                                        Header: "birthdate",
+                                        accessor: "birthdate"
+                                    },
+                                    {
+                                        Header: "gender",
+                                        accessor: "gender"
+                                    },
+                                    {
+                                        Header: "address",
+                                        accessor: "address"
+                                    },
+                                    {
+                                        Header: "medicalRecord",
+                                        accessor: "medicalRecord"
+                                    },
+                                    {
+                                        Header: "user_id",
+                                        accessor: "user_id"
+                                    },
+                                    {
+                                        Header: "caregiver_id",
+                                        accessor: "caregiver_id"
+                                    },
+
                                     {
                                         Header:"",
-                                        Cell:(row) => {return <button onClick={() => {this.deleteDoctor(row.original)}}>Delete</button>}
+                                        Cell:(row) => {return <button onClick={() => {this.deletePatient(row.original)}}>Delete</button>}
                                     },
 
                                     {
@@ -262,6 +199,17 @@ class Medic extends React.Component{
                                             closeOnDocumentClick
                                             contentStyle={{ width:420 }}
                                         ><PatientEdit id={row.original.id}/>
+                                        </Popup>
+                                        }
+                                    },
+                                    {
+                                        Header:"",
+                                        Cell:(row) => {return <Popup
+                                            trigger={<button className="button"> Add Medication </button>}
+                                            position="left top"
+                                            closeOnDocumentClick
+                                            contentStyle={{ width:800 }}
+                                        ><PatientMedication id={row.original.id}/>
                                         </Popup>
                                         }
                                     }
@@ -281,14 +229,14 @@ class Medic extends React.Component{
                     />
                 </div>
                 <div style={{margin:'50px auto', maxWidth:1000, textAlign:'center'}}>
-                    {/*<Popup*/}
-                    {/*trigger={<button className="button"> Create </button>}*/}
-                    {/*position="left top"*/}
-                    {/*closeOnDocumentClick*/}
-                    {/*contentStyle={{ width:420 }}*/}
-                    {/*>*/}
-                    {/*<UnitEdit id={-1}/>*/}
-                    {/*</Popup>*/}
+                    <Popup
+                        trigger={<button className="button"> Create </button>}
+                        position="left top"
+                        closeOnDocumentClick
+                        contentStyle={{ width:420 }}
+                    >
+                        <CaregiverEdit id={-1}/>
+                    </Popup>
                     <ReactTable
                         // data={this.state.units}
                         data={this.state.caregivers}
@@ -296,28 +244,47 @@ class Medic extends React.Component{
                             {
                                 Header: "Caregivers",
                                 columns: [
-                                    // {
-                                    //     Header: "Profile",
-                                    //     Cell: (row) => {
-                                    //         return <div><img height={50} src={row.original.image} alt="profile"/></div>
-                                    //     },
-                                    //     id: "Profile"
-                                    // },
                                     {
-                                        Header: "Profile",
-                                        accessor: "Profile"
+                                        Header: "Id",
+                                        accessor: "id"
                                     },
                                     {
                                         Header: "Name",
                                         accessor: "name"
                                     },
                                     {
-                                        Header: "Speciality",
-                                        accessor: "speciality"
+                                        Header: "Email",
+                                        accessor: "email"
                                     },
                                     {
+                                        Header: "status",
+                                        accessor: "status"
+                                    },
+                                    {
+                                        Header: "type",
+                                        accessor: "type"
+                                    },
+                                    {
+                                        Header: "birthdate",
+                                        accessor: "birthdate"
+                                    },
+                                    {
+                                        Header: "gender",
+                                        accessor: "gender"
+                                    },
+                                    {
+                                        Header: "address",
+                                        accessor: "address"
+                                    },
+                                    {
+                                        Header: "user_id",
+                                        accessor: "user_id"
+                                    },
+
+
+                                    {
                                         Header:"",
-                                        Cell:(row) => {return <button onClick={() => {this.deleteUnits(row.original)}}>Delete</button>}
+                                        Cell:(row) => {return <button onClick={() => {this.deleteCaregiver(row.original)}}>Delete</button>}
                                     },
                                     {
                                         Header:"",
@@ -326,7 +293,7 @@ class Medic extends React.Component{
                                             position="left top"
                                             closeOnDocumentClick
                                             contentStyle={{ width:420 }}
-                                        ><PatientEdit id={row.original.id}/>
+                                        ><CaregiverEdit id={row.original.id}/>
                                         </Popup>
                                         }
                                     }
@@ -346,7 +313,14 @@ class Medic extends React.Component{
                     />
                 </div>
                 <div style={{margin:'50px auto', maxWidth:1000, textAlign:'center'}}>
-
+                    <Popup
+                        trigger={<button className="button"> Create </button>}
+                        position="left top"
+                        closeOnDocumentClick
+                        contentStyle={{ width:420 }}
+                    >
+                        <MedicationEdit id={-1}/>
+                    </Popup>
                     <ReactTable
                         // data={this.state.users}
                         data={this.state.medications}
@@ -354,37 +328,31 @@ class Medic extends React.Component{
                             {
                                 Header: "Medications",
                                 columns: [
-                                    // {
-                                    //     Header: "Profile",
-                                    //     Cell: (row) => {
-                                    //         return <div><img height={50} src={row.original.user_detail.image} alt="profile"/></div>
-                                    //     },
-                                    //     id: "status"
-                                    //
-                                    // },
                                     {
-                                        Header: "Emai",
-                                        accessor: "email"
+                                        Header: "Id",
+                                        accessor: "id"
                                     },
-                                    // {
-                                    //     Header: "Name",
-                                    //     accessor: d => d.user_detail.name,
-                                    //     id: "name"
-                                    //
-                                    // },
                                     {
-                                        Header: "Problem",
-                                        accessor: "problem"
+                                        Header: "Name",
+                                        accessor: "name"
+                                    },
+                                    {
+                                        Header: "sideEffects",
+                                        accessor: "sideEffects"
+                                    },
+                                    {
+                                        Header: "dosage",
+                                        accessor: "dosage"
+                                    },
+                                    {
+                                        Header: "Status",
+                                        accessor: "status"
+                                    },
 
 
-                                    },
-                                    {
-                                        Header: "Admin",
-                                        accessor: "admin"
-                                    },
                                     {
                                         Header:"",
-                                        Cell:(row) => {return <button onClick={() => {this.deleteUser(row.original)}}>Delete</button>}
+                                        Cell:(row) => {return <button onClick={() => {this.deleteMedication(row.original)}}>Delete</button>}
                                     },
                                     {
                                         Header:"",
@@ -393,7 +361,7 @@ class Medic extends React.Component{
                                             position="left top"
                                             closeOnDocumentClick
                                             contentStyle={{ width:420 }}
-                                        ><PatientEdit id={row.original.id}/>
+                                        ><MedicationEdit id={row.original.id}/>
                                         </Popup>
                                         }
                                     }
@@ -412,58 +380,7 @@ class Medic extends React.Component{
                         className="-highlight"
                     />
                 </div>
-                {/*<div style={{margin:'50px auto', maxWidth:1000, textAlign:'center'}}>*/}
-                {/*<ReactTable*/}
-                {/*data={this.state.comments}*/}
-                {/*columns={[*/}
-                {/*{*/}
-                {/*Header: "Comments",*/}
-                {/*columns: [*/}
-                {/*{*/}
-                {/*Header: "Content",*/}
-                {/*accessor: "content"*/}
-                {/*},*/}
-                {/*// {*/}
-                {/*//     Header: "Rating",*/}
-                {/*//     Cell: (row) => {*/}
-                {/*//         return <div>*/}
-                {/*//             <StarRatingComponent*/}
-                {/*//                 name="rate1"*/}
-                {/*//                 starCount={5}*/}
-                {/*//                 value={row.original.rating} />*/}
-                {/*//         </div>*/}
-                {/*//     },*/}
-                {/*//     id: "rating"*/}
-                {/*// },*/}
-                {/*{*/}
-                {/*Header: "Medic",*/}
-                {/*accessor: d => d.doctor.name,*/}
-                {/*id: "medic"*/}
 
-                {/*},*/}
-                {/*{*/}
-                {/*Header:"",*/}
-                {/*Cell:(row) => {return <button onClick={() => {this.deleteComment(row.original)}}>Delete</button>}*/}
-                {/*},*/}
-                {/*{*/}
-                {/*Header:"",*/}
-                {/*Cell:(row) => {return row.original.hide === 0 ? <button onClick={() => {this.hideComment(row.original, 1)}}>Hide</button> : <button onClick={() => {this.hideComment(row.original, 0)}}>Show</button>}*/}
-                {/*}*/}
-
-                {/*]*/}
-                {/*}*/}
-
-                {/*]}*/}
-                {/*defaultSorted={[*/}
-                {/*{*/}
-                {/*id: "name",*/}
-                {/*desc: true*/}
-                {/*}*/}
-                {/*]}*/}
-                {/*defaultPageSize={5}*/}
-                {/*className="-highlight"*/}
-                {/*/>*/}
-                {/*</div>*/}
             </div>
         )
     }
